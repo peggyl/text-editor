@@ -3,11 +3,43 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Text Editor</title>
+	<link href="css/text-editor.css" rel="stylesheet">
 	<link href="css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h1> Text Editor </h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6 top-buffer">
+				<form role="form">
+					<div class="form-group">
+						<label for="title"> Title: </label>
+						<input id="title" class="form-control" type="text" placeholder="Enter Title">
+					</div>
+
+					<div class="form-group">
+						<label for="document"> Document: </label>
+						<textarea id="document" class="form-control" rows="10"> </textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="tags"> Tags: </label>
+						<input id="tags" class="form-control" type="text" placeholder="Enter Tags">
+					</div>
+				</form>
+			</div>
+
+			<div class="col-md-4 top-buffer">
+				<textarea> </textarea>
+			</div>
+		</div>
+	</div>
 
 
 </body>
