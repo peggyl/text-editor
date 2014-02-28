@@ -28,3 +28,7 @@
 	font-size:11px;
 	line-height:15px;
 }
+
+.navbar a:hover {
+	background-color: #AAA !important;
+}
