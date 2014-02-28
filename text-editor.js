@@ -1,4 +1,4 @@
-(function() {
+var documents = (function() {
 		
 	if (!localStorage.getItem("ids")) {
 		localStorage.setItem("ids", JSON.stringify([]));
@@ -31,7 +31,13 @@
 
 		localStorage.setItem("nextID", parseInt(localStorage.getItem("nextId"), 10) + 1);
 
-		this.toString = function() {
+		this.save = function() {
+			localStorage.setItem(id, this.toString());
+		};
+		this.constructor = Document;
+	}
+
+	Document.prototype.toString = function() {
 			return JSON.stringify({
 				"name": this.name,
 				"created": this.created,
@@ -39,12 +45,6 @@
 				"tags": this.tags, 
 				"text": this.text
 			});
-		}
-
-		this.save = function() {
-			localStorage.setItem(id, this.toString())
-		}
-		this.constructor = Document;
 	};
 
 	function getAllDocumentIds() {
@@ -54,4 +54,10 @@
 	function getDocument(id) {
 		return JSON.parse(localStorage.getItem(id)) || null;
 	}
+
+	return {
+		Document: Document
+	};
+
+
 }());
