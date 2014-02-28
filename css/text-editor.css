@@ -1,3 +1,10 @@
 .top-buffer {
 	margin:20px;
 }
+
+.timestamp{
+	color:#999999;
+	font-size:11px;
+	line-height:20px;
+	margin-top:-5px;
+}
