@@ -1,13 +1,18 @@
-.whiteboard-background {
-	background: url(../resources/whiteboard.gif) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+
+.whiteboard-border {
+	border: .3em solid #000;
+}
+
+.extra-top-margin {
+	margin: 45px;
+}
+
+.neg-margin-bottom {
+	margin-bottom: -22px;
 }
 
 .top-margin {
-	margin:20px;
+	margin:15px;
 }
 
 .no-padding-left {
@@ -21,6 +26,5 @@
 .timestamp{
 	color:#999999;
 	font-size:11px;
-	line-height:20px;
-	margin-top:-5px;
+	line-height:15px;
 }
