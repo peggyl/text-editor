@@ -3,16 +3,25 @@
 	border: .3em solid #000;
 }
 
-.extra-top-margin {
+
+.margin-all {
+	margin:15px;
+}
+
+.extra-margin-all {
 	margin: 45px;
+}
+
+.margin-top {
+	margin-top:15px;
+}
+
+.extra-margin-top {
+	margin-top:25px;
 }
 
 .neg-margin-bottom {
 	margin-bottom: -22px;
-}
-
-.top-margin {
-	margin:15px;
 }
 
 .no-padding-left {
