@@ -1,5 +1,4 @@
 
-
 	function Document() {
 		this.constructor = Document;
 		this.title;
@@ -31,21 +30,21 @@
 
 	Document.prototype.saveAs = function() {
 		this.title = document.getElementById('title').value;
-		var original = localStorage.getItem(this.title);
-
-		if (original && !window.confirm("A document named " + this.title + " already exists. Are you sure you would like to overwrite it?")) {
-			return false;
-		}
 
 		if (!this.title) {
 			window.alert("Please Enter a Title!");
 			return false;
 		}
 
+		var original = localStorage.getItem(this.title);
+		if (original && !window.confirm("A document named " + this.title + " already exists. Are you sure you would like to overwrite it?")) {
+			return false;
+		}
+
 		this.text = document.getElementById('text').value;
 		this.tags = document.getElementById('tags').value;
 		if (this.tags) {this.tags = this.tags.split(',');}
-		this.created = document.getElementById('created').value;
+		this.created = document.getElementById('created').innerHTML;
 		this.modified = new Date().getTime();
 
 		localStorage.setItem(this.title, this.toString());
@@ -54,7 +53,7 @@
 			alert("Save Failed!");
 			return false;
 		}
-		alert("Save Sucessful")
+		alert("Save Successful")
 		return true;
 	}
 
@@ -68,21 +67,50 @@
 		document.getElementById('title').value = this.title;
 		document.getElementById('text').value = this.text;
 		document.getElementById('tags').value = this.tags.join(', ');
-		document.getElementById('created').value = this.created;
-		document.getElementById('modified').value = this.modified;
+		document.getElementById('created').innerHTML = new Date(this.created);
+		document.getElementById('modified').innerHTML = new Date(this.modified);
 		return this;
 	}
 
-	function saveAs() {
-		return new Document().saveAs();
+	Document.prototype.create = function() {
+		var title = document.getElementById('title');
+		title.value = "";
+		title.placeholder = "Enter Title";
+
+		var text = document.getElementById('text');
+		text.value = "";
+
+		var tags = document.getElementById('tags');
+		tags.value = "";
+		tags.placeholder = "Enter Tags";
+		
+		var created = document.getElementById('created');
+		created.innerHTML = new Date();
+
+		var modified = document.getElementById('modified');
+		modified.innerHTML = new Date();
 	}
 
+	function create() {
+		if (event.type == "click" || (event.type=="keydown" && event.which==78 && event.ctrlKey)) {
+			return new Document().create();
+		}
+		return false;
+	}
+	document.getElementById("new").addEventListener("click", create, false);
+	document.addEventListener("keydown", create, false);
+
+	function saveAs(event) {
+		if (event.type == "click" || (event.type=="keydown" && event.which==83 && event.ctrlKey)) {
+			return new Document().saveAs();
+		}
+		return false;
+	}
 	document.getElementById("save-as").addEventListener("click", saveAs, false);
+	document.addEventListener("keydown", saveAs, false);
 
 	function load(id) {
 		return new Document().load(id);
 	}
 
-	function getTime() {
-		return new Date().getTime();
-	}
+	create();
