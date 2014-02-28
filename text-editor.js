@@ -8,8 +8,8 @@
 	}
 	
 	/* Load all documents */
-	var doc_ids = getAllDocumentIds(),
-		doc_list = []
+	var doc_ids = getAllDocumentIds(), 
+	    doc_list = [];
 	for (var i in doc_ids) {
 		var doc_json = getDocument(doc_ids[i]),
 			doc = new Document();
@@ -25,7 +25,7 @@
 		this.id = parseInt(localStorage.getItem("nextId"), 10);
 		this.name = "Document" + this.id;
 		this.created = new Date().getTime();
-		this.modified = new Date().getTime();;
+		this.modified = new Date().getTime();
 		this.tags = [];
 		this.text = "";
 
@@ -40,6 +40,11 @@
 				"text": this.text
 			});
 		}
+
+		this.save = function() {
+			localStorage.setItem(id, this.toString())
+		}
+		this.constructor = Document;
 	};
 
 	function getAllDocumentIds() {
@@ -49,8 +54,4 @@
 	function getDocument(id) {
 		return JSON.parse(localStorage.getItem(id)) || null;
 	}
-
-
-
-
 }());
