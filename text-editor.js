@@ -16,14 +16,7 @@ var documents = (function() {
 		console.log(doc_ids[i]);
 		var doc_json = getDocument(doc_ids[i]);
 		if (doc_json !== null) {
-			var doc = new Document();
-
-			doc.id = doc_ids[i];
-			doc.name = doc_json["name"];
-			doc.created = doc_json["created"];
-			doc.modified = doc_json["modified"];
-			doc.tags = doc_json["tags"];
-			doc.text = doc_json["text"];
+			var doc = new Document(doc_json);
 			doc_list.push(doc);
 		}
 	}
@@ -35,18 +28,19 @@ var documents = (function() {
 	}
 
 
-	function Document() {
-		this.id = parseInt(localStorage.getItem("nextId"), 10);
-		this.name = "Document" + this.id;
-		this.created = new Date().getTime();
-		this.modified = new Date().getTime();
-		this.tags = [];
-		this.text = "";
+	function Document(data) {
+		this.id = data.id || parseInt(localStorage.getItem("nextId"), 10);
+		this.name = data.name|| ("Document" + this.id);
+		this.created = data.created || new Date().getTime();
+		this.modified = data.modified || new Date().getTime();
+		this.tags = data.tags || [];
+		this.text = data.text || "";
 		return this;
 	}
 
 	Document.prototype.makeString = function() {
 			return JSON.stringify({
+				"id": this.id,
 				"name": this.name,
 				"created": this.created,
 				"modified": this.modified,
@@ -69,7 +63,7 @@ var documents = (function() {
 
 	 function newDocument() {
 	 	//TODO: save the old document? ****
-	 	var doc = new Document();
+	 	var doc = new Document({});
 	 	localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
 	 	doc_ids.push(doc.id);
 	 	localStorage.setItem("ids", JSON.stringify(doc_ids));
