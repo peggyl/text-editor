@@ -29,12 +29,14 @@ var documents = (function() {
 		this.tags = [];
 		this.text = "";
 
-		localStorage.setItem("nextID", parseInt(localStorage.getItem("nextId"), 10) + 1);
+		localStorage.setItem("nextId", parseInt(localStorage.getItem("nextId"), 10) + 1);
 
 		this.save = function() {
 			localStorage.setItem(id, this.toString());
 		};
 		this.constructor = Document;
+
+		return this;
 	}
 
 	Document.prototype.toString = function() {
@@ -54,6 +56,63 @@ var documents = (function() {
 	function getDocument(id) {
 		return JSON.parse(localStorage.getItem(id)) || null;
 	}
+
+	/* ====================
+	 * Autosaving document
+	 * ====================
+	 */
+
+	var hasChanged = true;
+
+	function saveAs() {
+		if (!hasChanged) {
+			return;
+		}
+
+		var now = new Date();
+
+		var doc = Document();
+		doc.name = document.getElementById("title");
+		doc.created = now;
+		doc.modified = now;
+		doc.tags = document.getElementById("tags");
+		doc.text = document.getElementById("text");
+
+		// save to localStorage
+		localStorage.setItem(id, doc);
+
+		// update modified date on document
+		document.getElementById("modified").innerHTML = now;
+	}
+
+	// autosave the document every 5 seconds
+	var save = window.setInterval(saveAs, 2000);
+
+	/* ===== End autosaving code ===== */
+
+
+	/* =================
+	 * Find and replace
+	 * =================
+	 */
+	function findAndReplace() {
+		console.log("called find/replace");
+		var find = document.getElementById("find").value,
+			replace = document.getElementById("replace").value,
+		 	text = document.getElementById("text").value;
+
+		console.log("replace " + find + " with " + replace + " in " + text);
+		var re = new RegExp(find, "g");
+		newText = text.replace(re, replace);
+		console.log(newText);
+		document.getElementById("text").value = newText;
+		saveAs();
+	}
+
+	 document.getElementById("find-replace-btn").addEventListener("click", findAndReplace);
+
+
+	 /* ===== End find/replace code ===== */
 
 	return {
 		Document: Document
