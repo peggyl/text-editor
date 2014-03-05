@@ -28,11 +28,10 @@ var documents = (function() {
 		}
 	}
 
-	//holds current document--starting with arbitrary one
+	//holds current document--starting with the first one
 	var currDoc;
 	if( doc_list.length !== 0) {
 		currDoc = doc_list[0];
-		console.log(currDoc);
 	}
 
 
@@ -43,12 +42,6 @@ var documents = (function() {
 		this.modified = new Date().getTime();
 		this.tags = [];
 		this.text = "";
-
-		localStorage.setItem("nextId", parseInt(localStorage.getItem("nextId"), 10) + 1);
-
-		this.save = function() {
-			localStorage.setItem(id, this.toString());
-		};
 		return this;
 	}
 
@@ -75,13 +68,7 @@ var documents = (function() {
 	 */
 
 	 function newDocument() {
-	 	//save the old document? ****
-	 	//make a new doc w/ new id
-	 	//update the next id in local storage
-	 	//save the ids to local storage so that the new id is there
-	 	//save initial new document to local storage
-	 	//set all of the stuff in the ui to the correct (new!) contents
-	 	//set currDoc to the new doc
+	 	//TODO: save the old document? ****
 	 	var doc = new Document();
 	 	localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
 	 	doc_ids.push(doc.id);
@@ -111,7 +98,6 @@ var documents = (function() {
 
 		var now = new Date();
 
-		//var doc = Document();
 		currDoc.name = document.getElementById("title").value;
 		currDoc.created = now;
 		currDoc.modified = now;
