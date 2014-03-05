@@ -13,18 +13,25 @@ var documents = (function() {
 	var doc_ids = getAllDocumentIds(), 
 	    doc_list = [];
 	for (var i in doc_ids) {
-		console.log(doc_ids[i]);
 		var doc_json = getDocument(doc_ids[i]);
 		if (doc_json !== null) {
 			var doc = new Document(doc_json);
 			doc_list.push(doc);
 		}
 	}
+	updateDocList();
+
+
+
 
 	//holds current document--starting with the first one
 	var currDoc;
 	if( doc_list.length !== 0) {
 		currDoc = doc_list[0];
+		document.getElementById("text").value = currDoc.text;
+	 	document.getElementById("title").value = currDoc.name;
+	 	document.getElementById("tags").value = currDoc.tags;
+
 	}
 
 
@@ -53,7 +60,8 @@ var documents = (function() {
 		return JSON.parse(localStorage.getItem("ids"));
 	}
 
-	function getDocument(id) {return JSON.parse(localStorage.getItem(id)) || null;
+	function getDocument(id) {
+		return JSON.parse(localStorage.getItem(id)) || null;
 	}
 
 	/* ====================
@@ -62,7 +70,8 @@ var documents = (function() {
 	 */
 
 	 function newDocument() {
-	 	//TODO: save the old document? ****
+	 	//save the current document
+	 	saveAs();
 	 	var doc = new Document({});
 	 	localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
 	 	doc_ids.push(doc.id);
@@ -70,10 +79,15 @@ var documents = (function() {
 	 	currDoc = doc;
 	 	doc_list.push(doc);
 	 	document.getElementById("text").value = doc.text;
-
+	 	document.getElementById("title").value = doc.name;
+	 	document.getElementById("tags").value = doc.tags;
+	 	saveAs();
+	 	updateDocList();
 	 }
 
 	 document.getElementById("new").addEventListener("click", newDocument, false);
+
+	 /* ===== End creating a new document ===== */
 
 
 
@@ -109,6 +123,27 @@ var documents = (function() {
 	var save = window.setInterval(saveAs, 2000);
 
 	/* ===== End autosaving code ===== */
+
+
+	/* ====================
+	 * Updating the document list
+	 * ====================
+	 */
+
+	 function updateDocList() {
+
+		//add the documents to the documents list on the page itself
+		var listElement = document.getElementById('doclist');
+		while (listElement.firstChild) {
+    		listElement.removeChild(listElement.firstChild);
+		}
+		for(var i in doc_list) {
+			doc = doc_list[i];
+			var entry = document.createElement('li');
+			entry.appendChild(document.createTextNode(doc.name));
+			listElement.appendChild(entry);
+		}
+	 }
 
 
 	/* =================
