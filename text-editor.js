@@ -1,25 +1,40 @@
 var documents = (function() {
-		
+	
+	//create id list if it doesn't exist	
 	if (!localStorage.getItem("ids")) {
 		localStorage.setItem("ids", JSON.stringify([]));
 	}
 	if (!localStorage.getItem("nextId")) {
 		localStorage.setItem("nextId", "1");
 	}
+
 	
 	/* Load all documents */
 	var doc_ids = getAllDocumentIds(), 
 	    doc_list = [];
 	for (var i in doc_ids) {
-		var doc_json = getDocument(doc_ids[i]),
-			doc = new Document();
-		doc.name = doc_json["name"];
-		doc.created = doc_json["created"];
-		doc.modified = doc_json["modified"];
-		doc.tags = doc_json["tags"];
-		doc.text = doc_json["text"];
+		console.log(doc_ids[i]);
+		var doc_json = getDocument(doc_ids[i]);
+		if (doc_json !== null) {
+			var doc = new Document();
 
+			doc.id = doc_ids[i];
+			doc.name = doc_json["name"];
+			doc.created = doc_json["created"];
+			doc.modified = doc_json["modified"];
+			doc.tags = doc_json["tags"];
+			doc.text = doc_json["text"];
+			doc_list.push(doc);
+		}
 	}
+
+	//holds current document--starting with arbitrary one
+	var currDoc;
+	if( doc_list.length !== 0) {
+		currDoc = doc_list[0];
+		console.log(currDoc);
+	}
+
 
 	function Document() {
 		this.id = parseInt(localStorage.getItem("nextId"), 10);
@@ -34,17 +49,15 @@ var documents = (function() {
 		this.save = function() {
 			localStorage.setItem(id, this.toString());
 		};
-		this.constructor = Document;
-
 		return this;
 	}
 
-	Document.prototype.toString = function() {
+	Document.prototype.makeString = function() {
 			return JSON.stringify({
 				"name": this.name,
 				"created": this.created,
 				"modified": this.modified,
-				"tags": this.tags, 
+				"tags": this.tags,
 				"text": this.text
 			});
 	};
@@ -53,9 +66,36 @@ var documents = (function() {
 		return JSON.parse(localStorage.getItem("ids"));
 	}
 
-	function getDocument(id) {
-		return JSON.parse(localStorage.getItem(id)) || null;
+	function getDocument(id) {return JSON.parse(localStorage.getItem(id)) || null;
 	}
+
+	/* ====================
+	 * Creating a new document
+	 * ====================
+	 */
+
+	 function newDocument() {
+	 	//save the old document? ****
+	 	//make a new doc w/ new id
+	 	//update the next id in local storage
+	 	//save the ids to local storage so that the new id is there
+	 	//save initial new document to local storage
+	 	//set all of the stuff in the ui to the correct (new!) contents
+	 	//set currDoc to the new doc
+	 	var doc = new Document();
+	 	localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
+	 	doc_ids.push(doc.id);
+	 	localStorage.setItem("ids", JSON.stringify(doc_ids));
+	 	currDoc = doc;
+	 	doc_list.push(doc);
+	 	document.getElementById("text").value = doc.text;
+
+	 }
+
+	 document.getElementById("new").addEventListener("click", newDocument, false);
+
+
+
 
 	/* ====================
 	 * Autosaving document
@@ -65,21 +105,21 @@ var documents = (function() {
 	var hasChanged = true;
 
 	function saveAs() {
-		if (!hasChanged) {
+		if (!hasChanged || (currDoc == undefined)) {
 			return;
 		}
 
 		var now = new Date();
 
-		var doc = Document();
-		doc.name = document.getElementById("title");
-		doc.created = now;
-		doc.modified = now;
-		doc.tags = document.getElementById("tags");
-		doc.text = document.getElementById("text");
+		//var doc = Document();
+		currDoc.name = document.getElementById("title").value;
+		currDoc.created = now;
+		currDoc.modified = now;
+		currDoc.tags = document.getElementById("tags").value;
+		currDoc.text = document.getElementById("text").value;
 
 		// save to localStorage
-		localStorage.setItem(id, doc);
+		localStorage.setItem(currDoc.id, currDoc.makeString());
 
 		// update modified date on document
 		document.getElementById("modified").innerHTML = now;
@@ -114,9 +154,8 @@ var documents = (function() {
 
 	 /* ===== End find/replace code ===== */
 
-	return {
-		Document: Document
-	};
+	 //returning all of the documents
+	return doc_list;
 
 
 }());
