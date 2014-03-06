@@ -156,15 +156,20 @@ var documents = (function() {
 
     function updateDocList() {
 
-    	doc_list_copy = doc_list.slice(0);
+		doc_list_copy = doc_list.slice(0);
 
-    	doc_list_copy.sort(function(obj1, obj2) {
-    		date1 = Date(obj1.created);
-			date2 = Date(obj2.created);
+		doc_list_copy.sort(function(obj1, obj2) {
 			// Ascending: first age less than the previous
-			return dates.compare(date1, date2);
+			if (obj2.modified-obj1.modified < 0 ) {
+				return -1;
+			}
+			else if(obj2.modified-obj1.modified > 0){
+				return 1;
+			}
+			return 0;
+			//return dates.compare(date1, date2);
 
-    	});
+		});
 
 
     
@@ -204,16 +209,15 @@ var documents = (function() {
 			tags.innerHTML = 'Tags: ' + doc.tags;
 			entry.appendChild(tags);
 
-			numDocumentsToShow = numDocumentsToShow-1;
+			numRecDocumentsToShow = numRecDocumentsToShow-1;
 
-			if (numDocumentsToShow == 0)
+			if (numRecDocumentsToShow === 0)
 					break;
 			
 		}
-
      }
 
-     //var update = window.setInterval(saveAs, 2000);
+     var update = window.setInterval(updateDocList, 2000);
 
      /* ===== End updating the document list code ===== */
 
