@@ -16,6 +16,10 @@
 	margin-top:15px;
 }
 
+.semi-margin-top {
+	margin-top:24px;
+}
+
 .extra-margin-top {
 	margin-top:25px;
 }
@@ -30,7 +34,6 @@
 
 .no-padding-right {
 	padding-right: 0px;
-	margin-right: 0px;
 }
 
 .timestamp{

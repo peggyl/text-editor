@@ -53,7 +53,8 @@ var documents = (function() {
 		return JSON.parse(localStorage.getItem("ids"));
 	}
 
-	function getDocument(id) {return JSON.parse(localStorage.getItem(id)) || null;
+	function getDocument(id) {
+		return JSON.parse(localStorage.getItem(id)) || null;
 	}
 
 	/* ====================
@@ -73,9 +74,14 @@ var documents = (function() {
 
 	 }
 
+	 function newAction() {
+	 	if (event.type=="keydown" && event.which==78 && event.ctrlKey) {
+	 		newDocument();
+	 	}
+	 }
+
 	 document.getElementById("new").addEventListener("click", newDocument, false);
-
-
+	 document.addEventListener("keydown", newDocument, false);
 
 
 	/* ====================
@@ -104,6 +110,14 @@ var documents = (function() {
 		// update modified date on document
 		document.getElementById("modified").innerHTML = now;
 	}
+
+	function saveAction() {
+		if (event.type=="keydown" && event.which==83 && event.ctrlKey) {
+			saveAs();
+	}
+
+	document.getElementById("save-as").addEventListener("click", saveAs, false);
+	document.addEventListener("keydown", saveAction, false);
 
 	// autosave the document every 5 seconds
 	var save = window.setInterval(saveAs, 2000);
