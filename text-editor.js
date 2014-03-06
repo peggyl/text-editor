@@ -156,13 +156,33 @@ var documents = (function() {
 
     function updateDocList() {
 
+    	doc_list_copy = doc_list.slice(0);
+
+    	doc_list_copy.sort(function(obj1, obj2) {
+    		date1 = Date(obj1.created);
+			date2 = Date(obj2.created);
+			// Ascending: first age less than the previous
+			return dates.compare(date1, date2);
+
+    	});
+
+
+    
+
 		//add the documents to the documents list on the page itself
 		var listElement = document.getElementById('doclist');
+
 		while (listElement.firstChild) {
             listElement.removeChild(listElement.firstChild);
 		}
-		for(var i in doc_list) {
-			doc = doc_list[i];
+
+		var numRecDocumentsToShow = 5;
+
+
+
+
+		for(var i in doc_list_copy) {
+			doc = doc_list_copy[i];
 			var entry = document.createElement('li');
 
             entry['indexInDocList']=i;
@@ -184,9 +204,13 @@ var documents = (function() {
 			tags.innerHTML = 'Tags: ' + doc.tags;
 			entry.appendChild(tags);
 
+			numDocumentsToShow = numDocumentsToShow-1;
 
+			if (numDocumentsToShow == 0)
+					break;
 			
 		}
+
      }
 
      //var update = window.setInterval(saveAs, 2000);
