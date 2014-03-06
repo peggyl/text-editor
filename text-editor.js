@@ -4,7 +4,9 @@ var documents = (function() {
         this.id = data.id || parseInt(localStorage.getItem("nextId"), 10);
         this.name = data.name|| ("Document" + this.id);
         this.created = data.created || new Date();
-        this.modified = data.modified || new Date();
+        this.created = new Date(this.created);
+        this.modified = new Date(data.modified) || new Date();
+        this.modified = new Date(this.modified);
         this.tags = data.tags || [];
         this.text = data.text || "";
         return this;
@@ -90,7 +92,7 @@ var documents = (function() {
      }
 
      function newAction(event) {
-     	if (event.type=="keydown" && event.which==83 && event.ctrlKey) {
+     	if (event.type=="keydown" && event.which==78 && event.ctrlKey) {
      		newDocument();
      	}
      }
