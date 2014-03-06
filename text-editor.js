@@ -70,6 +70,7 @@ var documents = (function() {
 	 * ====================
 	 */
 
+
 	 
 
      function newDocument() {
