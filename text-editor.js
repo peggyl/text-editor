@@ -70,28 +70,8 @@ var documents = (function() {
 	 * ====================
 	 */
 
-<<<<<<< HEAD
-	 function newDocument() {
-	 	//TODO: save the old document? ****
-	 	var doc = new Document({});
-	 	localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
-	 	doc_ids.push(doc.id);
-	 	localStorage.setItem("ids", JSON.stringify(doc_ids));
-	 	currDoc = doc;
-	 	doc_list.push(doc);
-	 	document.getElementById("text").value = doc.text;
+	 
 
-	 }
-
-	 function newAction() {
-	 	if (event.type=="keydown" && event.which==78 && event.ctrlKey) {
-	 		newDocument();
-	 	}
-	 }
-
-	 document.getElementById("new").addEventListener("click", newDocument, false);
-	 document.addEventListener("keydown", newDocument, false);
-=======
      function newDocument() {
         //save the current document
         saveAs();
@@ -106,10 +86,16 @@ var documents = (function() {
         updateDocList();
      }
 
-	document.getElementById("new").addEventListener("click", newDocument, false);
+	function newAction() {
+	 	if (event.type=="keydown" && event.which==78 && event.ctrlKey) {
+	 		newDocument();
+	 	}
+	 }
+
+	 document.getElementById("new").addEventListener("click", newDocument, false);
+	 document.addEventListener("keydown", newDocument, false);
 
     /* ===== End creating a new document code ===== */
->>>>>>> 8e699aa5b489ea7b27d2e5214dc00005d2dbdb51
 
 
 	/* ====================
