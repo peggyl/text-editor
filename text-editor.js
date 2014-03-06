@@ -22,9 +22,9 @@ var documents = (function() {
     };
 
     Document.prototype.populateEditor = function() {
-        document.getElementById("text").value = currDoc.text;
-        document.getElementById("title").value = currDoc.name;
-        document.getElementById("tags").value = currDoc.tags;
+        document.getElementById("text").value = this.text;
+        document.getElementById("title").value = this.name;
+        document.getElementById("tags").value = this.tags;
     };
 
 	
@@ -70,9 +70,6 @@ var documents = (function() {
 	 * ====================
 	 */
 
-
-	 
-
      function newDocument() {
         //save the current document
         saveAs();
@@ -87,14 +84,7 @@ var documents = (function() {
         updateDocList();
      }
 
-	function newAction() {
-	 	if (event.type=="keydown" && event.which==78 && event.ctrlKey) {
-	 		newDocument();
-	 	}
-	 }
-
-	 document.getElementById("new").addEventListener("click", newDocument, false);
-	 document.addEventListener("keydown", newDocument, false);
+	document.getElementById("new").addEventListener("click", newDocument, false);
 
     /* ===== End creating a new document code ===== */
 
@@ -114,7 +104,6 @@ var documents = (function() {
 		var now = new Date();
 
 		currDoc.name = document.getElementById("title").value;
-		currDoc.created = now;
 		currDoc.modified = now;
 		currDoc.tags = document.getElementById("tags").value;
 		currDoc.text = document.getElementById("text").value;
@@ -124,15 +113,8 @@ var documents = (function() {
 
 		// update modified date on document
 		document.getElementById("modified").innerHTML = now;
+        document.getElementById("created").innerHTML = currDoc.created;
 	}
-
-	function saveAction() {
-		if (event.type=="keydown" && event.which==83 && event.ctrlKey) {
-			saveAs();
-	}
-
-	document.getElementById("save-as").addEventListener("click", saveAs, false);
-	document.addEventListener("keydown", saveAction, false);
 
 	// autosave the document every 5 seconds
 	var save = window.setInterval(saveAs, 2000);
