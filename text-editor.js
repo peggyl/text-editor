@@ -215,6 +215,7 @@ var documents = (function() {
 					break;
 			
 		}
+		doc_list = doc_list_copy;
      }
 
      var update = window.setInterval(updateDocList, 2000);
