@@ -81,6 +81,8 @@ var documents = (function() {
         //save the current document
         saveAs();
         var doc = new Document({});
+        doc.created = new Date();
+        doc.modified = new Date();
         localStorage.setItem("nextId", (parseInt(localStorage.getItem("nextId"), 10)+1).toString());
         doc_ids.push(doc.id);
         localStorage.setItem("ids", JSON.stringify(doc_ids));
@@ -129,6 +131,8 @@ var documents = (function() {
 		// update modified date on document
 		document.getElementById("modified").innerHTML = now;
         document.getElementById("created").innerHTML = currDoc.created;
+
+        updateDocList();
 	}
 
 	function saveAction(event) {
@@ -160,9 +164,28 @@ var documents = (function() {
 		for(var i in doc_list) {
 			doc = doc_list[i];
 			var entry = document.createElement('li');
+
             entry['indexInDocList']=i;
 			entry.appendChild(document.createTextNode(doc.name));
 			listElement.appendChild(entry);
+
+			var created = document.createElement('p');
+			created.className = "recent-created no-padding no-margin";
+			created.innerHTML = 'Created: ' + new Date(doc.created);
+			entry.appendChild(created);
+
+			var modified = document.createElement('p');
+			modified.className = "recent-modified no-padding no-margin";
+			modified.innerHTML = 'Modified: ' + new Date(doc.modified);
+			entry.appendChild(modified);
+
+			var tags = document.createElement('p');
+			tags.className = "recent-tags";
+			tags.innerHTML = 'Tags: ' + doc.tags;
+			entry.appendChild(tags);
+
+
+			
 		}
      }
 

@@ -16,7 +16,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a id="save-as"> Save As </a> </li> <!-- ON CLICK SAVE !-->
-            <li><a id="load"> Load </a></li> <!-- ON CLICK LOAD !-->
+            <!-- <li><a id="load"> Load </a></li>  ON CLICK LOAD !-->
             <li><a id="new"> New </a></li>
           </ul>
         </div>
@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="row whiteboard-border">
-			<div class="col-md-7 margin-all">
+			<div class="col-md-7 margin-top margin-bottom">
 				<form role="form">
 					<div class="form-group">
 						<label for="title"> Title: </label>
@@ -74,8 +74,9 @@
 				<img class="neg-margin-bottom" src="resources/whiteboard.gif"> </img>
 			</div>
 
-			<div class="col-md-4 top-buffer">
-				<ul id="doclist"></ul>
+			<div class="col-md-5 margin-top">
+				<label for="doclist"> Recent Documents: </label>
+				<ul id="doclist" class="scrollable"></ul>
 				<!-- RECENT AREA HERE !-->
 			</div>
 		</div>	
