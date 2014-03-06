@@ -54,7 +54,7 @@
 }
 
 textarea {
-	max-width: 569px;
+	resize: vertical;
 }
 
 .scrollable {
