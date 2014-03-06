@@ -3,8 +3,8 @@ var documents = (function() {
     function Document(data) {
         this.id = data.id || parseInt(localStorage.getItem("nextId"), 10);
         this.name = data.name|| ("Document" + this.id);
-        this.created = data.created || new Date().getTime();
-        this.modified = data.modified || new Date().getTime();
+        this.created = data.created || new Date();
+        this.modified = data.modified || new Date();
         this.tags = data.tags || [];
         this.text = data.text || "";
         return this;
@@ -25,6 +25,8 @@ var documents = (function() {
         document.getElementById("text").value = this.text;
         document.getElementById("title").value = this.name;
         document.getElementById("tags").value = this.tags;
+        document.getElementById("created").innerHTML = this.created;
+        document.getElementById("modified").innerHTML = this.modified;
     };
 
 	
@@ -52,9 +54,12 @@ var documents = (function() {
 
 	//holds current document--starting with the first one
 	var currDoc;
-	if( doc_list.length !== 0) {
+	if (doc_list.length !== 0) {
 		currDoc = doc_list[0];
         currDoc.populateEditor();
+	}
+	else {
+		newDocument();
 	}
 
 	function getAllDocumentIds() {
@@ -84,7 +89,15 @@ var documents = (function() {
         updateDocList();
      }
 
+     function newAction(event) {
+     	if (event.type=="keydown" && event.which==83 && event.ctrlKey) {
+     		newDocument();
+     	}
+     }
+
 	document.getElementById("new").addEventListener("click", newDocument, false);
+	document.addEventListener("keydown", newAction, false);
+
 
     /* ===== End creating a new document code ===== */
 
@@ -116,8 +129,16 @@ var documents = (function() {
         document.getElementById("created").innerHTML = currDoc.created;
 	}
 
+	function saveAction(event) {
+		if (event.type=="keydown" && event.which==83 && event.ctrlKey) {
+			saveAs();
+		}
+	}
+
 	// autosave the document every 5 seconds
-	var save = window.setInterval(saveAs, 2000);
+	window.setInterval(saveAs, 5000);
+	document.getElementById("save-as").addEventListener("click", saveAs, false);
+	document.addEventListener("keydown", saveAction, false);
 
 	/* ===== End autosaving code ===== */
 
@@ -143,7 +164,7 @@ var documents = (function() {
 		}
      }
 
-     var update = window.setInterval(saveAs, 2000);
+     //var update = window.setInterval(saveAs, 2000);
 
      /* ===== End updating the document list code ===== */
 
